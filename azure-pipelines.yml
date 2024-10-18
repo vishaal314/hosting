@@ -1,0 +1,33 @@
+# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+variables:
+  - group: 'bankwork'  
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+
+- script: |
+    curl -o terraform.zip https://releases.hashicorp.com/terraform/1.0.10/terraform_1.0.10_linux_amd64.zip
+    unzip terraform.zip
+    sudo mv terraform /usr/local/bin/
+    terraform version
+  displayName: 'Install Terraform'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'bankwork'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      terraform init
+      terraform plan -var "client_secret=$(client_secret)"
+      terraform apply -auto-approve -var "client_secret=$(client_secret)"
+  displayName: 'Deploy Terraform Resources'
