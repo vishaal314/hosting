@@ -8,10 +8,10 @@ variable "client_secret" {
 provider "azurerm" {
   features {}
 
-  subscription_id = "5bf4da55-c4c4-4111-a3e9-b4e3e1d47c2b"
-  client_id       = "56ac39b4-6829-4f23-aa1b-874fd6995e4d"
+  subscription_id = " "
+  client_id       = "    "
   client_secret   = var.client_secret  # Use the declared variable
-  tenant_id       = "5c2193b7-3dbd-4b3d-941f-c88ed755cb0a"
+  tenant_id       = " "
 }
 
 # 2. Create Resource Group
